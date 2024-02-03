@@ -1,0 +1,7 @@
+name: killchance
+main: io.github.faiz36.killchance.Main
+version: 0.0.1
+api-version: "1.20"
+libraries:
+  - io.github.monun:invfx-core:3.3.2
+  - io.github.monun:kommand-core:3.1.7
