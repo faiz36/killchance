@@ -17,8 +17,8 @@ class MainHandler(player: Player, private val data:MainData, main:Main) {
     init {
         val fr = InvFX.frame(3, Component.text("킬 확률 GUI").decoration(TextDecoration.BOLD,true)) {
             // 기초 변수 설정
-            val killItem = data.instance.getItem()
-            val chance = data.instance.getChance()
+            val killItem = data.getItem()
+            val chance = data.getChance()
 
             // 기초 아이템 설정
             val green = ItemStack(Material.GREEN_CONCRETE)
@@ -44,7 +44,7 @@ class MainHandler(player: Player, private val data:MainData, main:Main) {
 
             onClickBottom { e ->
                 if (e.currentItem == null) return@onClickBottom
-                data.instance.setItem(e.currentItem!!)
+                data.setItem(e.currentItem!!)
                 item(1,1,e.currentItem!!)
             }
 
@@ -54,19 +54,19 @@ class MainHandler(player: Player, private val data:MainData, main:Main) {
                 }
                 onClick { _ ->
                     item = null
-                    data.instance.setItem(null)
+                    data.setItem(null)
                 }
             }
 
             slot(4,1){
-                item = if(data.instance.getToggle()){
+                item = if(data.getToggle()){
                     green
                 }else{
                     red
                 }
                 onClick { e ->
-                    data.instance.setToggle(!data.instance.getToggle())
-                    item = if(data.instance.getToggle()){
+                    data.setToggle(!data.getToggle())
+                    item = if(data.getToggle()){
                         green
                     }else{
                         red
