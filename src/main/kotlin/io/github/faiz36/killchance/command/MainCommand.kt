@@ -10,10 +10,10 @@ class MainCommand( private val main:Main,private val data: MainData) {
     init {
         main.apply {
             kommand {
-                register("killchance"){
+                register("killchance") {
                     requires { isOp && isPlayer }
                     executes {
-                        MainHandler(player,data,main)
+                        MainHandler(player, data, main)
                     }
                 }
             }

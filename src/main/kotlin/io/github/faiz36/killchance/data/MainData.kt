@@ -6,37 +6,34 @@ import org.bukkit.plugin.Plugin
 import java.io.File
 
 class MainData(private val plugin:Plugin) {
-
-    var instance:MainData = this
-
     private val file get() = File(plugin.dataFolder, "data.yml")
     private val yaml = YamlConfiguration.loadConfiguration(file)
 
-    fun getToggle():Boolean{
+    fun getToggle(): Boolean {
         return yaml.getBoolean("killchance.toggle")
     }
 
-    fun setToggle(boolean: Boolean){
-        yaml.set("killchance.toggle",boolean)
+    fun setToggle(boolean: Boolean) {
+        yaml.set("killchance.toggle", boolean)
     }
 
-    fun getItem(): ItemStack?{
+    fun getItem(): ItemStack? {
         return yaml.getItemStack("killchance.item")
     }
 
-    fun setItem(item:ItemStack?){
-        yaml.set("killchance.item",item)
+    fun setItem(item: ItemStack?) {
+        yaml.set("killchance.item", item)
     }
 
-    fun getChance():Int{
+    fun getChance(): Int {
         return yaml.getInt("killchance.chance")
     }
 
-    fun setChance(int:Int){
-        yaml.set("killchance.chance",int)
+    fun setChance(int: Int) {
+        yaml.set("killchance.chance", int)
     }
 
-    fun save(){
+    fun save() {
         yaml.save(file)
     }
 

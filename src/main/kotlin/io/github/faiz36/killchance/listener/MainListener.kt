@@ -12,45 +12,45 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerChatEvent
 
-class MainListener(private val main:Main, data:MainData):Listener {
-    private val data1: MainData
-
+class MainListener(
+    private val main:Main,
+    private val data:MainData
+):Listener {
     init {
-        Bukkit.getPluginManager().registerEvents(this,main)
-        data1 = data
+        Bukkit.getPluginManager().registerEvents(this, main)
     }
 
     @EventHandler
-    fun onChat(e: PlayerChatEvent){
-        if(main.list.contains(e.player.uniqueId.toString())){
-            if(e.message.toIntOrNull() != null){
+    fun onChat(e: PlayerChatEvent) {
+        if (main.list.contains(e.player.uniqueId.toString())) {
+            if (e.message.toIntOrNull() != null) {
                 val chance = e.message.toInt()
-                if(chance in 0..100){
+                if (chance in 0..100) {
                     e.isCancelled = true
-                    data1.instance.setChance(chance)
+                    data.setChance(chance)
                     main.list.remove(e.player.uniqueId.toString())
-                    MainHandler(e.player,data1,main)
-                }else{
+                    MainHandler(e.player, data, main)
+                } else {
                     e.isCancelled = true
                     main.list.remove(e.player.uniqueId.toString())
-                    MainHandler(e.player,data1,main)
+                    MainHandler(e.player, data, main)
                 }
-            }else{
+            } else {
                 e.isCancelled = true
                 main.list.remove(e.player.uniqueId.toString())
-                MainHandler(e.player,data1,main)
+                MainHandler(e.player, data, main)
             }
         }
     }
 
     @EventHandler
-    fun onKill(e:PlayerDeathEvent){
-        if(!data1.getToggle()) return
-        if(e.player.killer !is Player) return
-        val rand:Int = (Math.random()*100).toInt()
-        if(rand in 0..data1.instance.getChance()){
-            if(data1.instance.getItem() == null) return
-            e.player.killer!!.inventory.addItem(data1.instance.getItem()!!)
+    fun onKill(e: PlayerDeathEvent) {
+        if (!data.getToggle()) return
+        if (e.player.killer !is Player) return
+        val rand: Int = (Math.random() * 100).toInt()
+        if (rand in 0..data.getChance()) {
+            if (data.getItem() == null) return
+            e.player.killer!!.inventory.addItem(data.getItem()!!)
         }
     }
 
