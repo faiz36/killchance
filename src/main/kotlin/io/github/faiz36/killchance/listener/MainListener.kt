@@ -12,36 +12,33 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerChatEvent
 
-class MainListener(main:Main,data:MainData):Listener {
-
-    private val main1: Main
+class MainListener(private val main:Main, data:MainData):Listener {
     private val data1: MainData
 
     init {
         Bukkit.getPluginManager().registerEvents(this,main)
-        main1 = main
         data1 = data
     }
 
     @EventHandler
     fun onChat(e: PlayerChatEvent){
-        if(main1.instance.list.contains(e.player.uniqueId.toString())){
+        if(main.list.contains(e.player.uniqueId.toString())){
             if(e.message.toIntOrNull() != null){
                 val chance = e.message.toInt()
                 if(chance in 0..100){
                     e.isCancelled = true
                     data1.instance.setChance(chance)
-                    main1.instance.list.remove(e.player.uniqueId.toString())
-                    MainHandler(e.player,data1,main1)
+                    main.list.remove(e.player.uniqueId.toString())
+                    MainHandler(e.player,data1,main)
                 }else{
                     e.isCancelled = true
-                    main1.instance.list.remove(e.player.uniqueId.toString())
-                    MainHandler(e.player,data1,main1)
+                    main.list.remove(e.player.uniqueId.toString())
+                    MainHandler(e.player,data1,main)
                 }
             }else{
                 e.isCancelled = true
-                main1.instance.list.remove(e.player.uniqueId.toString())
-                MainHandler(e.player,data1,main1)
+                main.list.remove(e.player.uniqueId.toString())
+                MainHandler(e.player,data1,main)
             }
         }
     }
