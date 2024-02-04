@@ -12,7 +12,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class MainHander(player: Player, private val data:MainData, main:Main) {
+class MainHandler(player: Player, private val data:MainData, main:Main) {
 
     init {
         val fr = InvFX.frame(3, Component.text("킬 확률 GUI").decoration(TextDecoration.BOLD,true)) {
