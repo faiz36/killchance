@@ -4,7 +4,7 @@ package io.github.faiz36.killchance.listener
 
 import io.github.faiz36.killchance.Main
 import io.github.faiz36.killchance.data.MainData
-import io.github.faiz36.killchance.handler.MainHander
+import io.github.faiz36.killchance.handler.MainHandler
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -32,16 +32,16 @@ class MainListener(main:Main,data:MainData):Listener {
                     e.isCancelled = true
                     data1.instance.setChance(chance)
                     main1.instance.list.remove(e.player.uniqueId.toString())
-                    MainHander(e.player,data1,main1)
+                    MainHandler(e.player,data1,main1)
                 }else{
                     e.isCancelled = true
                     main1.instance.list.remove(e.player.uniqueId.toString())
-                    MainHander(e.player,data1,main1)
+                    MainHandler(e.player,data1,main1)
                 }
             }else{
                 e.isCancelled = true
                 main1.instance.list.remove(e.player.uniqueId.toString())
-                MainHander(e.player,data1,main1)
+                MainHandler(e.player,data1,main1)
             }
         }
     }
