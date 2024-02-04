@@ -17,39 +17,39 @@ class MainListener(
     private val data:MainData
 ):Listener {
     init {
-        Bukkit.getPluginManager().registerEvents(this,main)
+        Bukkit.getPluginManager().registerEvents(this, main)
     }
 
     @EventHandler
-    fun onChat(e: PlayerChatEvent){
-        if(main.list.contains(e.player.uniqueId.toString())){
-            if(e.message.toIntOrNull() != null){
+    fun onChat(e: PlayerChatEvent) {
+        if (main.list.contains(e.player.uniqueId.toString())) {
+            if (e.message.toIntOrNull() != null) {
                 val chance = e.message.toInt()
-                if(chance in 0..100){
+                if (chance in 0..100) {
                     e.isCancelled = true
                     data.setChance(chance)
                     main.list.remove(e.player.uniqueId.toString())
-                    MainHandler(e.player,data,main)
-                }else{
+                    MainHandler(e.player, data, main)
+                } else {
                     e.isCancelled = true
                     main.list.remove(e.player.uniqueId.toString())
-                    MainHandler(e.player,data,main)
+                    MainHandler(e.player, data, main)
                 }
-            }else{
+            } else {
                 e.isCancelled = true
                 main.list.remove(e.player.uniqueId.toString())
-                MainHandler(e.player,data,main)
+                MainHandler(e.player, data, main)
             }
         }
     }
 
     @EventHandler
-    fun onKill(e:PlayerDeathEvent){
-        if(!data.getToggle()) return
-        if(e.player.killer !is Player) return
-        val rand:Int = (Math.random()*100).toInt()
-        if(rand in 0..data.getChance()){
-            if(data.getItem() == null) return
+    fun onKill(e: PlayerDeathEvent) {
+        if (!data.getToggle()) return
+        if (e.player.killer !is Player) return
+        val rand: Int = (Math.random() * 100).toInt()
+        if (rand in 0..data.getChance()) {
+            if (data.getItem() == null) return
             e.player.killer!!.inventory.addItem(data.getItem()!!)
         }
     }

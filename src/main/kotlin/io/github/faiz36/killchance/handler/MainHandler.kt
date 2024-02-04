@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack
 class MainHandler(player: Player, private val data:MainData, main:Main) {
 
     init {
-        val fr = InvFX.frame(3, Component.text("킬 확률 GUI").decoration(TextDecoration.BOLD,true)) {
+        val fr = InvFX.frame(3, Component.text("킬 확률 GUI").decoration(TextDecoration.BOLD, true)) {
             // 기초 변수 설정
             val killItem = data.getItem()
             val chance = data.getChance()
@@ -23,19 +23,33 @@ class MainHandler(player: Player, private val data:MainData, main:Main) {
             // 기초 아이템 설정
             val green = ItemStack(Material.GREEN_CONCRETE)
             val greenmeta = green.itemMeta
-            greenmeta.displayName(Component.text("활성화됨").decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC,false).color(TextColor.color(0,255,0)))
+            greenmeta.displayName(
+                Component.text("활성화됨").decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false)
+                    .color(TextColor.color(0, 255, 0))
+            )
             green.itemMeta = greenmeta
 
             val red = ItemStack(Material.RED_CONCRETE)
             val redmeta = red.itemMeta
-            redmeta.displayName(Component.text("비활성화됨").decoration(TextDecoration.BOLD,true).decoration(TextDecoration.ITALIC,false).color(TextColor.color(255,0,0)))
+            redmeta.displayName(
+                Component.text("비활성화됨").decoration(TextDecoration.BOLD, true).decoration(TextDecoration.ITALIC, false)
+                    .color(TextColor.color(255, 0, 0))
+            )
             red.itemMeta = redmeta
 
             val sign = ItemStack(Material.OAK_SIGN)
             val signmeta = sign.itemMeta
-            signmeta.displayName(Component.text("확률 변경").decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC,false))
-            val lore:MutableList<Component> = ArrayList()
-            lore.add(Component.text("$chance%").color(TextColor.color(255,255,0)).decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC,false).append(Component.text("의 확률로 아이템이 지급됩니다.").color(TextColor.color(255,255,255)).decoration(TextDecoration.BOLD,false)))
+            signmeta.displayName(
+                Component.text("확률 변경").decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false)
+            )
+            val lore: MutableList<Component> = ArrayList()
+            lore.add(
+                Component.text("$chance%").color(TextColor.color(255, 255, 0)).decorate(TextDecoration.BOLD)
+                    .decoration(TextDecoration.ITALIC, false).append(
+                    Component.text("의 확률로 아이템이 지급됩니다.").color(TextColor.color(255, 255, 255))
+                        .decoration(TextDecoration.BOLD, false)
+                )
+            )
             signmeta.lore(lore)
             sign.itemMeta = signmeta
 
@@ -45,11 +59,11 @@ class MainHandler(player: Player, private val data:MainData, main:Main) {
             onClickBottom { e ->
                 if (e.currentItem == null) return@onClickBottom
                 data.setItem(e.currentItem!!)
-                item(1,1,e.currentItem!!)
+                item(1, 1, e.currentItem!!)
             }
 
-            slot(1,1){
-                if(killItem != null){
+            slot(1, 1) {
+                if (killItem != null) {
                     item = killItem
                 }
                 onClick { _ ->
@@ -58,23 +72,23 @@ class MainHandler(player: Player, private val data:MainData, main:Main) {
                 }
             }
 
-            slot(4,1){
-                item = if(data.getToggle()){
+            slot(4, 1) {
+                item = if (data.getToggle()) {
                     green
-                }else{
+                } else {
                     red
                 }
                 onClick { e ->
                     data.setToggle(!data.getToggle())
-                    item = if(data.getToggle()){
+                    item = if (data.getToggle()) {
                         green
-                    }else{
+                    } else {
                         red
                     }
                 }
             }
 
-            slot(7,1){
+            slot(7, 1) {
                 item = sign
                 onClick { e ->
                     e.whoClicked.sendMessage("채팅에 0~100 사이에 숫자를 넣어주세요! (다른걸 넣을시 취소됩니다.)")
@@ -99,7 +113,7 @@ class MainHandler(player: Player, private val data:MainData, main:Main) {
                     e.isCancelled = true
                 }
             }
-            slot(i,2){
+            slot(i, 2) {
                 item = item1
                 onClick { e ->
                     e.isCancelled = true
