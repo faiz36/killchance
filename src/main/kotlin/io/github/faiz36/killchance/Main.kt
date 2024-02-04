@@ -6,8 +6,9 @@ import io.github.faiz36.killchance.listener.MainListener
 import org.bukkit.plugin.java.JavaPlugin
 
 class Main: JavaPlugin(){
-
-    var instance:Main = this
+    init {
+        instance = this
+    }
 
     val list:MutableList<String> = ArrayList()
 
@@ -20,5 +21,9 @@ class Main: JavaPlugin(){
 
     override fun onDisable() {
         maindata.save()
+    }
+
+    companion object{
+        lateinit var instance: Main
     }
 }
