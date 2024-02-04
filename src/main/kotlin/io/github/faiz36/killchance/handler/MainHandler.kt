@@ -79,7 +79,7 @@ class MainHandler(player: Player, private val data:MainData, main:Main) {
                 onClick { e ->
                     e.whoClicked.sendMessage("채팅에 0~100 사이에 숫자를 넣어주세요! (다른걸 넣을시 취소됩니다.)")
                     e.whoClicked.closeInventory()
-                    main.instance.list.add(e.whoClicked.uniqueId.toString())
+                    main.list.add(e.whoClicked.uniqueId.toString())
                 }
             }
 
