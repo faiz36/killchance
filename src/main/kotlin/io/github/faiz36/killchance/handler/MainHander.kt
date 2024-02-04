@@ -1,5 +1,6 @@
 package io.github.faiz36.killchance.handler
 
+import io.github.faiz36.killchance.Main
 import io.github.faiz36.killchance.data.MainData
 import io.github.monun.invfx.InvFX
 import io.github.monun.invfx.frame.InvFrame
@@ -11,10 +12,15 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class MainHander(player: Player, private val data:MainData) {
+class MainHander(player: Player, private val data:MainData, main:Main) {
 
     init {
         val fr = InvFX.frame(3, Component.text("킬 확률 GUI").decoration(TextDecoration.BOLD,true)) {
+            // 기초 변수 설정
+            val killItem = data.instance.getItem()
+            val chance = data.instance.getChance()
+
+            // 기초 아이템 설정
             val green = ItemStack(Material.GREEN_CONCRETE)
             val greenmeta = green.itemMeta
             greenmeta.displayName(Component.text("활성화됨").decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC,false).color(TextColor.color(0,255,0)))
@@ -24,7 +30,34 @@ class MainHander(player: Player, private val data:MainData) {
             val redmeta = red.itemMeta
             redmeta.displayName(Component.text("비활성화됨").decoration(TextDecoration.BOLD,true).decoration(TextDecoration.ITALIC,false).color(TextColor.color(255,0,0)))
             red.itemMeta = redmeta
+
+            val sign = ItemStack(Material.OAK_SIGN)
+            val signmeta = sign.itemMeta
+            signmeta.displayName(Component.text("확률 변경").decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC,false))
+            val lore:MutableList<Component> = ArrayList()
+            lore.add(Component.text("$chance%").color(TextColor.color(255,255,0)).decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC,false).append(Component.text("의 확률로 아이템이 지급됩니다.").color(TextColor.color(255,255,255)).decoration(TextDecoration.BOLD,false)))
+            signmeta.lore(lore)
+            sign.itemMeta = signmeta
+
+            // 기초 프레임 설정
             initframe()
+
+            onClickBottom { e ->
+                if (e.currentItem == null) return@onClickBottom
+                data.instance.setItem(e.currentItem!!)
+                item(1,1,e.currentItem!!)
+            }
+
+            slot(1,1){
+                if(killItem != null){
+                    item = killItem
+                }
+                onClick { _ ->
+                    item = null
+                    data.instance.setItem(null)
+                }
+            }
+
             slot(4,1){
                 item = if(data.instance.getToggle()){
                     green
@@ -32,16 +65,24 @@ class MainHander(player: Player, private val data:MainData) {
                     red
                 }
                 onClick { e ->
-                    if(data.instance.getToggle()){
-                        data.instance.setToggle(!data.instance.getToggle())
-                        item = if(data.instance.getToggle()){
-                            green
-                        }else{
-                            red
-                        }
+                    data.instance.setToggle(!data.instance.getToggle())
+                    item = if(data.instance.getToggle()){
+                        green
+                    }else{
+                        red
                     }
                 }
             }
+
+            slot(7,1){
+                item = sign
+                onClick { e ->
+                    e.whoClicked.sendMessage("채팅에 0~100 사이에 숫자를 넣어주세요! (다른걸 넣을시 취소됩니다.)")
+                    e.whoClicked.closeInventory()
+                    main.instance.list.add(e.whoClicked.uniqueId.toString())
+                }
+            }
+
         }
         player.openFrame(fr)
     }

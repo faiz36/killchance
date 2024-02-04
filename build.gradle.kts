@@ -18,6 +18,10 @@ java {
 tasks {
     runServer {
         minecraftVersion("1.20.1")
+        downloadPlugins{
+            hangar("ViaVersion","4.9.3-SNAPSHOT+208")
+            hangar("ViaBackwards","4.9.2-SNAPSHOT+126")
+        }
     }
 }
 
